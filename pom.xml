@@ -12,6 +12,8 @@
 
 	<name>Explore With Me</name>
 
+	<packaging>pom</packaging>
+
 	<modules>
 		<module>statistics</module>
 		<module>main-service</module>
@@ -20,7 +22,6 @@
 	<groupId>ru.practicum</groupId>
 	<artifactId>explore-with-me</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
 
 	<properties>
 		<java.version>11</java.version>
