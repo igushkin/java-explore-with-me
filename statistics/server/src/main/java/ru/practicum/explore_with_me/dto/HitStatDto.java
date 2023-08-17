@@ -11,8 +11,4 @@ public class HitStatDto {
     private String app;
     private String uri;
     private Long hits;
-
-/*    public HitStatDto(String a, String b, Long c) {
-
-    }*/
 }

@@ -18,11 +18,6 @@ public class StatsController {
 
     private final StatsService statsService;
 
-    @GetMapping()
-    public ResponseEntity greet() {
-        return ResponseEntity.ok("Hi");
-    }
-
     @PostMapping("/hit")
     public ResponseEntity hit(@RequestBody HitDto hitDto) {
         statsService.hit(hitDto);
@@ -30,7 +25,7 @@ public class StatsController {
     }
 
     @GetMapping("/stats")
-    public ResponseEntity<List<HitStatDto>> stats(
+    public ResponseEntity<List<HitStatDto>> getStats(
             @RequestParam(name = "start") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime start,
             @RequestParam(name = "end") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end,
             @RequestParam(name = "uris", defaultValue = "", required = false) List uris,
