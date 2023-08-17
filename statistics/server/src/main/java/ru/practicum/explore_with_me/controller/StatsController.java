@@ -1,6 +1,7 @@
 package ru.practicum.explore_with_me.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import ru.practicum.explore_with_me.dto.HitDto;
 import ru.practicum.explore_with_me.dto.HitStatDto;
 import ru.practicum.explore_with_me.service.StatsService;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -33,10 +35,10 @@ public class StatsController {
 
     @GetMapping("/stats")
     public ResponseEntity<List<HitStatDto>> stats(
-            @RequestParam(name = "start") LocalDateTime start,
-            @RequestParam(name = "start") LocalDateTime end,
-            @RequestParam(name = "uris", defaultValue = "") List uris,
-            @RequestParam(name = "unique", defaultValue = "false") boolean unique
+            @RequestParam(name = "start") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime start,
+            @RequestParam(name = "end") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end,
+            @RequestParam(name = "uris", defaultValue = "", required = false) List uris,
+            @RequestParam(name = "unique", defaultValue = "false", required = false) boolean unique
     ) {
         return ResponseEntity.ok(statsService.getStats(start, end, uris, unique));
     }
