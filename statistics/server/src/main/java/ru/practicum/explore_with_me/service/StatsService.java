@@ -24,6 +24,11 @@ public class StatsService {
     }
 
     public List<HitStatDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique) {
-        return hitRepository.getHitStat(start, end, uris, unique);
+        uris = uris.size() == 0 ? null : uris;
+
+        if (unique)
+            return hitRepository.getUniqieHitStat(start, end, uris);
+        else
+            return hitRepository.getHitStat(start, end, uris);
     }
 }

@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.practicum.explore_with_me.dto.HitDto;
 import ru.practicum.explore_with_me.dto.HitStatDto;
 import ru.practicum.explore_with_me.service.StatsService;
@@ -27,7 +24,7 @@ public class StatsController {
     }
 
     @PostMapping("/hit")
-    public ResponseEntity hit(HitDto hitDto) {
+    public ResponseEntity hit(@RequestBody HitDto hitDto) {
         statsService.hit(hitDto);
         return new ResponseEntity(HttpStatus.CREATED);
     }
