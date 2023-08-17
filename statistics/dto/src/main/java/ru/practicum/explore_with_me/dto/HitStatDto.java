@@ -1,4 +1,3 @@
-/*
 package ru.practicum.explore_with_me.dto;
 
 import lombok.*;
@@ -12,4 +11,4 @@ public class HitStatDto {
     private String app;
     private String uri;
     private Long hits;
-}*/
+}
