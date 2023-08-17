@@ -14,8 +14,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class StatsClient {
-    final static DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private static final String SERVICE_URI = "http://localhost:9090/";
+
     private final RestTemplate restTemplate;
 
     public ResponseEntity<String> hit(HitDto hitDto) {
