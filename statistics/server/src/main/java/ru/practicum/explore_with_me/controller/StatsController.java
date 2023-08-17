@@ -20,6 +20,11 @@ public class StatsController {
 
     private final StatsService statsService;
 
+    @GetMapping()
+    public ResponseEntity greet() {
+        return ResponseEntity.ok("Hi");
+    }
+
     @PostMapping("/hit")
     public ResponseEntity hit(HitDto hitDto) {
         statsService.hit(hitDto);
