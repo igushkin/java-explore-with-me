@@ -12,7 +12,6 @@ import ru.practicum.explore_with_me.dto.HitDto;
 import ru.practicum.explore_with_me.dto.HitStatDto;
 import ru.practicum.explore_with_me.service.StatsService;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
