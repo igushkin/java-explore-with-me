@@ -17,7 +17,7 @@ public interface HitRepository extends JpaRepository<Hit, Integer> {
             "where h.timestamp >= ?1 and h.timestamp <= ?2 and (h.uri in ?3 or ?3 is null ) " +
             "group by h.uri, h.app " +
             "order by count(distinct h.ip) desc ")
-    List<HitStatDto> getUniqieHitStat(LocalDateTime start, LocalDateTime end, List<String> uris);
+    List<HitStatDto> getUniqueHitStat(LocalDateTime start, LocalDateTime end, List<String> uris);
 
     @Query(value = "SELECT new ru.practicum.explore_with_me.dto.HitStatDto(h.app, h.uri, count(h.id)) " +
             "FROM Hit h " +

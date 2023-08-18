@@ -27,7 +27,7 @@ public class StatsService {
         uris = uris.size() == 0 ? null : uris;
 
         if (unique)
-            return hitRepository.getUniqieHitStat(start, end, uris);
+            return hitRepository.getUniqueHitStat(start, end, uris);
         else
             return hitRepository.getHitStat(start, end, uris);
     }
