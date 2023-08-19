@@ -3,13 +3,49 @@ services:
   stats-server:
     ports:
       - "9090:9090"
+    build: statistics/.
+    container_name: stats-server
+    depends_on:
+      - stats-db
+    environment:
+      - MYAPP_JDBC_URL=jdbc:postgresql://stats-db:5432/stats
+      - DB_NAME=stats
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - DB_HOST=localhost
+      - DB_PORT=5432
 
   stats-db:
+    ports:
+      - "5432:5432"
     image: postgres:14-alpine
+    volumes:
+      - /var/lib/postgresql/data/
+    # переменные окружения
+    environment:
+      - POSTGRES_DB=stats
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+    container_name: stats-db
 
   ewm-service:
     ports:
       - "8080:8080"
+    build: main-service/.
+    container_name: ewm-service
+    depends_on:
+      - ewm-db
+    environment:
+      - MYAPP_JDBC_URL=jdbc:postgresql://ewm-db:5433/app
 
   ewm-db:
+    ports:
+      - "5433:5432"
     image: postgres:14-alpine
+    volumes:
+      - /var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=app
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+    container_name: ewm-db
