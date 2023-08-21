@@ -6,9 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.StatsClient;
-import ru.practicum.dto.EndpointHitDto;
-import ru.practicum.ewm.base.dao.EventRepository;
+import ru.practicum.ewm.base.repository.EventRepository;
 import ru.practicum.ewm.base.dto.event.EventFullDto;
 import ru.practicum.ewm.base.dto.event.EventShortDto;
 import ru.practicum.ewm.base.enums.State;
@@ -19,6 +17,8 @@ import ru.practicum.ewm.base.model.Event;
 import ru.practicum.ewm.base.model.EventSearchCriteria;
 import ru.practicum.ewm.base.util.page.MyPageRequest;
 import ru.practicum.ewm.publicApi.dto.RequestParamForEvent;
+import ru.practicum.explore_with_me.StatsClient;
+import ru.practicum.explore_with_me.dto.HitDto;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -36,7 +36,6 @@ public class PublicEventsServiceImpl implements PublicEventsService {
 
     @Value("${ewm.service.name}")
     private String serviceName;
-
 
     @Transactional
     @Override
@@ -70,14 +69,13 @@ public class PublicEventsServiceImpl implements PublicEventsService {
     }
 
     private void saveEndpointHit(HttpServletRequest request) {
-
-        EndpointHitDto endpointHit = EndpointHitDto.builder()
+        HitDto hitDto = HitDto.builder()
                 .ip(request.getRemoteAddr())
                 .uri(request.getRequestURI())
                 .app(serviceName)
                 .timestamp(LocalDateTime.now())
                 .build();
-        statsClient.save(endpointHit);
+        statsClient.hit(hitDto);
     }
 
     private MyPageRequest createPageable(String sort, int from, int size) {

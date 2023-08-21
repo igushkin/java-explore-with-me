@@ -7,7 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.adminApi.dto.RequestParamForEvent;
-import ru.practicum.ewm.base.dao.EventRepository;
+import ru.practicum.ewm.base.repository.EventRepository;
 import ru.practicum.ewm.base.dto.event.EventFullDto;
 import ru.practicum.ewm.base.dto.event.UpdateEventAdminRequest;
 import ru.practicum.ewm.base.enums.AdminStateAction;

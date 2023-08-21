@@ -1,4 +1,4 @@
-package ru.practicum.ewm.base.dao;
+package ru.practicum.ewm.base.repository;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
