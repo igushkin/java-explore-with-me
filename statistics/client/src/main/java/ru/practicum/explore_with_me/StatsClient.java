@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import ru.practicum.explore_with_me.dto.HitDto;
+import ru.practicum.explore_with_me.dto.HitStatDto;
 
 import java.net.URLEncoder;
 import java.time.LocalDateTime;
@@ -23,7 +24,7 @@ public class StatsClient {
         return restTemplate.postForEntity(SERVICE_URI + "/hit", hitDto, String.class);
     }
 
-    public ResponseEntity<List> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique) {
+    public List<HitStatDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique) {
         var strBuilder = new StringBuilder();
 
         strBuilder.append(start.format(DATE_TIME_FORMATTER));
@@ -36,6 +37,6 @@ public class StatsClient {
         strBuilder.append("&unique=" + unique);
 
         String url = URLEncoder.encode(strBuilder.toString());
-        return restTemplate.getForEntity(url, List.class);
+        return (List<HitStatDto>) (restTemplate.getForEntity(url, List.class));
     }
 }

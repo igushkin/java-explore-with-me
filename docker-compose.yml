@@ -37,6 +37,8 @@ services:
       - ewm-db
     environment:
       - MYAPP_JDBC_URL=jdbc:postgresql://ewm-db:5433/app
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
 
   ewm-db:
     ports:
