@@ -15,7 +15,6 @@ import ru.practicum.ewm.privateApi.service.event.PrivateEventsService;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Set;
 
 @Controller
 @RequiredArgsConstructor
@@ -73,5 +72,4 @@ public class PrivateEventsController {
         }
         return new ResponseEntity<>(service.updateRequestStatus(userId, eventId, request), HttpStatus.OK);
     }
-
 }

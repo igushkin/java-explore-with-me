@@ -5,7 +5,6 @@ import ru.practicum.ewm.base.util.notblanknull.NotBlankNull;
 
 import javax.validation.constraints.Size;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter

@@ -1,20 +1,19 @@
 package ru.practicum.ewm.publicApi.service.event;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.ewm.base.repository.EventRepository;
 import ru.practicum.ewm.base.dto.event.EventFullDto;
 import ru.practicum.ewm.base.dto.event.EventShortDto;
-import ru.practicum.ewm.base.enums.State;
-import ru.practicum.ewm.base.exception.ConflictException;
-import ru.practicum.ewm.base.exception.NotFoundException;
-import ru.practicum.ewm.base.mapper.EventMapper;
 import ru.practicum.ewm.base.entity.Event;
 import ru.practicum.ewm.base.entity.EventSearchCriteria;
+import ru.practicum.ewm.base.enums.State;
+import ru.practicum.ewm.base.exception.NotFoundException;
+import ru.practicum.ewm.base.mapper.EventMapper;
+import ru.practicum.ewm.base.repository.EventRepository;
 import ru.practicum.ewm.base.util.page.MyPageRequest;
 import ru.practicum.ewm.publicApi.dto.RequestParamForEvent;
 import ru.practicum.explore_with_me.StatsClient;
@@ -23,7 +22,6 @@ import ru.practicum.explore_with_me.dto.HitDto;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor

@@ -6,27 +6,26 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.ewm.base.exception.BadRequestException;
-import ru.practicum.ewm.base.repository.CategoriesRepository;
-import ru.practicum.ewm.base.repository.EventRepository;
-import ru.practicum.ewm.base.repository.RequestRepository;
-import ru.practicum.ewm.base.repository.UserRepository;
 import ru.practicum.ewm.base.dto.event.*;
 import ru.practicum.ewm.base.dto.request.ParticipationRequestDto;
+import ru.practicum.ewm.base.entity.Event;
+import ru.practicum.ewm.base.entity.Request;
 import ru.practicum.ewm.base.enums.State;
 import ru.practicum.ewm.base.enums.UserStateAction;
+import ru.practicum.ewm.base.exception.BadRequestException;
 import ru.practicum.ewm.base.exception.ConflictException;
 import ru.practicum.ewm.base.exception.NotFoundException;
 import ru.practicum.ewm.base.mapper.EventMapper;
 import ru.practicum.ewm.base.mapper.RequestMapper;
-import ru.practicum.ewm.base.entity.Event;
-import ru.practicum.ewm.base.entity.Request;
+import ru.practicum.ewm.base.repository.CategoriesRepository;
+import ru.practicum.ewm.base.repository.EventRepository;
+import ru.practicum.ewm.base.repository.RequestRepository;
+import ru.practicum.ewm.base.repository.UserRepository;
 import ru.practicum.ewm.base.util.UtilMergeProperty;
 import ru.practicum.ewm.base.util.page.MyPageRequest;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static ru.practicum.ewm.base.enums.Status.CONFIRMED;
@@ -142,18 +141,16 @@ public class PrivateEventsServiceImpl implements PrivateEventsService {
         String status = request.getStatus();
 
         if (status.equals(REJECTED.toString())) {
-            if (status.equals(REJECTED.toString())) {
-                boolean isConfirmedRequestExists = requests.stream()
-                        .anyMatch(r -> r.getStatus().equals(CONFIRMED));
-                if (isConfirmedRequestExists) {
-                    throw new ConflictException("Cannot reject confirmed requests");
-                }
-                rejectedRequests = requests.stream()
-                        .peek(r -> r.setStatus(REJECTED))
-                        .map(RequestMapper::toParticipationRequestDto)
-                        .collect(Collectors.toList());
-                return new EventRequestStatusUpdateResult(confirmedRequests, rejectedRequests);
+            boolean isConfirmedRequestExists = requests.stream()
+                    .anyMatch(r -> r.getStatus().equals(CONFIRMED));
+            if (isConfirmedRequestExists) {
+                throw new ConflictException("Cannot reject confirmed requests");
             }
+            rejectedRequests = requests.stream()
+                    .peek(r -> r.setStatus(REJECTED))
+                    .map(RequestMapper::toParticipationRequestDto)
+                    .collect(Collectors.toList());
+            return new EventRequestStatusUpdateResult(confirmedRequests, rejectedRequests);
         }
 
         Event event = eventRepository.findByIdAndInitiatorId(eventId, userId)
@@ -204,7 +201,7 @@ public class PrivateEventsServiceImpl implements PrivateEventsService {
                         })
                         .map(RequestMapper::toParticipationRequestDto)
                         .collect(Collectors.toList());
-                event.setConfirmedRequests(participantLimit);
+                event.setConfirmedRequests(Math.min(participantLimit, requests.size()));
             }
         }
         eventRepository.flush();

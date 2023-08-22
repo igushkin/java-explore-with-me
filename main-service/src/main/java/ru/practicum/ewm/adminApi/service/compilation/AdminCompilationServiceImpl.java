@@ -6,19 +6,18 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.ewm.base.repository.CompilationRepository;
-import ru.practicum.ewm.base.repository.EventRepository;
 import ru.practicum.ewm.base.dto.Compilation.CompilationDto;
 import ru.practicum.ewm.base.dto.Compilation.NewCompilationDto;
 import ru.practicum.ewm.base.dto.Compilation.UpdateCompilationRequest;
+import ru.practicum.ewm.base.entity.Compilation;
+import ru.practicum.ewm.base.entity.Event;
 import ru.practicum.ewm.base.exception.ConflictException;
 import ru.practicum.ewm.base.exception.NotFoundException;
 import ru.practicum.ewm.base.mapper.CompilationMapper;
-import ru.practicum.ewm.base.entity.Compilation;
-import ru.practicum.ewm.base.entity.Event;
+import ru.practicum.ewm.base.repository.CompilationRepository;
+import ru.practicum.ewm.base.repository.EventRepository;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor

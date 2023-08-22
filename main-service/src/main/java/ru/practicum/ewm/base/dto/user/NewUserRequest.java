@@ -1,7 +1,6 @@
 package ru.practicum.ewm.base.dto.user;
 
 import lombok.*;
-import ru.practicum.ewm.base.util.notblanknull.NotBlankNull;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

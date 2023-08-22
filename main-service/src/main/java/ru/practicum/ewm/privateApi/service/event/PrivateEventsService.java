@@ -4,7 +4,6 @@ import ru.practicum.ewm.base.dto.event.*;
 import ru.practicum.ewm.base.dto.request.ParticipationRequestDto;
 
 import java.util.List;
-import java.util.Set;
 
 public interface PrivateEventsService {
     List<EventShortDto> getAll(Long userId, Integer from, Integer size);

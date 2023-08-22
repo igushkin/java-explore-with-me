@@ -6,12 +6,12 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.ewm.base.repository.UserRepository;
 import ru.practicum.ewm.base.dto.user.NewUserRequest;
 import ru.practicum.ewm.base.dto.user.UserDto;
+import ru.practicum.ewm.base.entity.User;
 import ru.practicum.ewm.base.exception.ConflictException;
 import ru.practicum.ewm.base.mapper.UserMapper;
-import ru.practicum.ewm.base.entity.User;
+import ru.practicum.ewm.base.repository.UserRepository;
 import ru.practicum.ewm.base.util.page.MyPageRequest;
 
 import java.util.List;
