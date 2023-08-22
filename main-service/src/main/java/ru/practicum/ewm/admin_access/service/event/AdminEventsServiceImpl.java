@@ -17,8 +17,8 @@ import ru.practicum.ewm.common.exception.ConflictException;
 import ru.practicum.ewm.common.exception.NotFoundException;
 import ru.practicum.ewm.common.mapper.EventMapper;
 import ru.practicum.ewm.common.repository.EventRepository;
-import ru.practicum.ewm.common.util.UtilMergeProperty;
 import ru.practicum.ewm.common.util.MyPageRequest;
+import ru.practicum.ewm.common.util.UtilMergeProperty;
 
 import java.time.LocalDateTime;
 import java.util.List;

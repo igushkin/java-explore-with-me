@@ -21,8 +21,8 @@ import ru.practicum.ewm.common.repository.CategoriesRepository;
 import ru.practicum.ewm.common.repository.EventRepository;
 import ru.practicum.ewm.common.repository.RequestRepository;
 import ru.practicum.ewm.common.repository.UserRepository;
-import ru.practicum.ewm.common.util.UtilMergeProperty;
 import ru.practicum.ewm.common.util.MyPageRequest;
+import ru.practicum.ewm.common.util.UtilMergeProperty;
 
 import java.time.LocalDateTime;
 import java.util.List;
