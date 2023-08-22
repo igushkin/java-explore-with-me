@@ -25,8 +25,8 @@ public class StatsService {
     }
 
     public List<HitStatDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique) {
-        if (start.isBefore(end)) {
-            throw new BadRequestException("Start date before end date");
+        if (end.isBefore(start)) {
+            throw new BadRequestException("End date is before start date");
         }
 
         uris = uris.size() == 0 ? null : uris;
