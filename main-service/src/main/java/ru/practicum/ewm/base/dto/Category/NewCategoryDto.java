@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 @Builder
 public class NewCategoryDto {
     @NotBlank
-    @Size(max = 255)
+    @Size(min = 1, max = 50)
     private String name;
 
     @Override

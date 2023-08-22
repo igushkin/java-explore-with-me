@@ -4,6 +4,7 @@ import lombok.*;
 import ru.practicum.ewm.base.util.notblanknull.NotBlankNull;
 
 import javax.validation.constraints.Size;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -12,9 +13,9 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 public class UpdateCompilationRequest {
-    private Set<Long> events;
+    private List<Long> events;
     private Boolean pinned;
     @NotBlankNull
-    @Size(max = 128)
+    @Size(min = 1, max = 50)
     private String title;
 }

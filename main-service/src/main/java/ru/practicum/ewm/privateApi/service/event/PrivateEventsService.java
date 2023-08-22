@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 public interface PrivateEventsService {
-    Set<EventShortDto> getAll(Long userId, Integer from, Integer size);
+    List<EventShortDto> getAll(Long userId, Integer from, Integer size);
 
     EventFullDto get(Long userId, Long eventId);
 

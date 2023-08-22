@@ -13,8 +13,8 @@ import ru.practicum.ewm.base.enums.State;
 import ru.practicum.ewm.base.exception.ConflictException;
 import ru.practicum.ewm.base.exception.NotFoundException;
 import ru.practicum.ewm.base.mapper.EventMapper;
-import ru.practicum.ewm.base.model.Event;
-import ru.practicum.ewm.base.model.EventSearchCriteria;
+import ru.practicum.ewm.base.entity.Event;
+import ru.practicum.ewm.base.entity.EventSearchCriteria;
 import ru.practicum.ewm.base.util.page.MyPageRequest;
 import ru.practicum.ewm.publicApi.dto.RequestParamForEvent;
 import ru.practicum.explore_with_me.StatsClient;
@@ -22,6 +22,7 @@ import ru.practicum.explore_with_me.dto.HitDto;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -39,12 +40,12 @@ public class PublicEventsServiceImpl implements PublicEventsService {
 
     @Transactional
     @Override
-    public Set<EventShortDto> getAll(RequestParamForEvent param) {
+    public List<EventShortDto> getAll(RequestParamForEvent param) {
         MyPageRequest pageable = createPageable(param.getSort(), param.getFrom(), param.getSize());
         EventSearchCriteria eventSearchCriteria = createCriteria(param);
 
-        Set<EventShortDto> eventShorts = EventMapper.toEventShortDtoList(eventRepository
-                .findAllWithFilters(pageable, eventSearchCriteria).toSet());
+        List<EventShortDto> eventShorts = EventMapper.toEventShortDtoList(eventRepository
+                .findAllWithFilters(pageable, eventSearchCriteria).toList());
 
         log.info("Get events list size: {}", eventShorts.size());
         saveEndpointHit(param.getRequest());
@@ -58,12 +59,13 @@ public class PublicEventsServiceImpl implements PublicEventsService {
         Event event = eventRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.format("Event not found with id = %s", id)));
         if (!event.getState().equals(State.PUBLISHED)) {
-            throw new ConflictException(String.format("Event with id=%d is not published", id));
+            throw new NotFoundException(String.format("Event with id=%d is not published", id));
         }
 
         saveEndpointHit(request);
         log.info("Get event: {}", event.getId());
-        event.setViews(event.getViews() + 1);
+        var views = statsClient.getStats(LocalDateTime.now().minusYears(1000), LocalDateTime.now().plusYears(1000), List.of(request.getRequestURI()), true).get(0).getHits();
+        event.setViews(views);
         eventRepository.flush();
         return EventMapper.toEventFullDto(event);
     }

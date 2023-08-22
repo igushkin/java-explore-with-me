@@ -13,9 +13,9 @@ import ru.practicum.ewm.base.enums.Status;
 import ru.practicum.ewm.base.exception.ConflictException;
 import ru.practicum.ewm.base.exception.NotFoundException;
 import ru.practicum.ewm.base.mapper.RequestMapper;
-import ru.practicum.ewm.base.model.Event;
-import ru.practicum.ewm.base.model.Request;
-import ru.practicum.ewm.base.model.User;
+import ru.practicum.ewm.base.entity.Event;
+import ru.practicum.ewm.base.entity.Request;
+import ru.practicum.ewm.base.entity.User;
 
 import java.util.List;
 
@@ -58,7 +58,7 @@ public class PrivateRequestServiceImpl implements PrivateRequestService {
         if (!event.getState().equals(State.PUBLISHED)) {
             throw new ConflictException(String.format("Event with id=%d is not published", eventId));
         }
-        if (event.getParticipantLimit().equals(event.getConfirmedRequests())) {
+        if (event.getParticipantLimit() != 0 && event.getParticipantLimit().equals(event.getConfirmedRequests())) {
             throw new ConflictException(String.format("Event with id=%d has reached participant limit", eventId));
         }
         if (!event.getRequestModeration()) {

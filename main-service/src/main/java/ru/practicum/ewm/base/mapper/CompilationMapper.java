@@ -4,7 +4,7 @@ import lombok.experimental.UtilityClass;
 import ru.practicum.ewm.base.dto.Compilation.CompilationDto;
 import ru.practicum.ewm.base.dto.Compilation.NewCompilationDto;
 import ru.practicum.ewm.base.dto.Compilation.UpdateCompilationRequest;
-import ru.practicum.ewm.base.model.Compilation;
+import ru.practicum.ewm.base.entity.Compilation;
 
 import java.util.List;
 import java.util.stream.Collectors;

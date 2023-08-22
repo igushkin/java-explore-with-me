@@ -1,8 +1,9 @@
-package ru.practicum.ewm.base.model;
+package ru.practicum.ewm.base.entity;
 
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -26,7 +27,7 @@ public class Compilation {
     @JoinTable(name = "events_compilations",
             joinColumns = @JoinColumn(name = "compilation_id"),
             inverseJoinColumns = @JoinColumn(name = "event_id"))
-    private Set<Event> events;
+    private List<Event> events;
 
 
     @Override

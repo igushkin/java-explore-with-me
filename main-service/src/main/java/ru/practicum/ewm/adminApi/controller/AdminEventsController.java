@@ -3,6 +3,7 @@ package ru.practicum.ewm.adminApi.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import ru.practicum.ewm.base.dto.event.EventFullDto;
 import ru.practicum.ewm.base.dto.event.UpdateEventAdminRequest;
 import ru.practicum.ewm.base.enums.State;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
@@ -28,14 +30,14 @@ import java.util.stream.Collectors;
 @Validated
 public class AdminEventsController {
 
-    public final AdminEventsService service;
+    public final AdminEventsService adminEventsService;
 
     @GetMapping()
     public ResponseEntity<List<EventFullDto>> getAll(@RequestParam(required = false) List<Long> users,
                                                      @RequestParam(required = false) List<String> states,
                                                      @RequestParam(required = false) List<Long> categories,
-                                                     @RequestParam(required = false) LocalDateTime rangeStart,
-                                                     @RequestParam(required = false) LocalDateTime rangeEnd,
+                                                     @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeStart,
+                                                     @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeEnd,
                                                      @RequestParam(defaultValue = "0") @PositiveOrZero int from,
                                                      @RequestParam(defaultValue = "10") @Positive int size) {
         log.info("Получен запрос GET /admin/events");
@@ -54,13 +56,14 @@ public class AdminEventsController {
                 .from(from)
                 .size(size)
                 .build();
-        return new ResponseEntity<>(service.getAll(param), HttpStatus.OK);
+
+        return new ResponseEntity<>(adminEventsService.getAll(param), HttpStatus.OK);
     }
 
     @PatchMapping("/{eventId}")
     public ResponseEntity<EventFullDto> update(@PathVariable Long eventId,
-                                               @RequestBody UpdateEventAdminRequest updateEvent) {
+                                               @Valid @RequestBody UpdateEventAdminRequest updateEvent) {
         log.info("Получен запрос PATCH /admin/events/{} на изменение события.", eventId);
-        return new ResponseEntity<>(service.update(eventId, updateEvent), HttpStatus.OK);
+        return new ResponseEntity<>(adminEventsService.update(eventId, updateEvent), HttpStatus.OK);
     }
 }

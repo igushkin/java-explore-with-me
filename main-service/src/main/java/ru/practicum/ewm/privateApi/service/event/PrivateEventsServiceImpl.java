@@ -6,6 +6,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.practicum.ewm.base.exception.BadRequestException;
 import ru.practicum.ewm.base.repository.CategoriesRepository;
 import ru.practicum.ewm.base.repository.EventRepository;
 import ru.practicum.ewm.base.repository.RequestRepository;
@@ -18,8 +19,8 @@ import ru.practicum.ewm.base.exception.ConflictException;
 import ru.practicum.ewm.base.exception.NotFoundException;
 import ru.practicum.ewm.base.mapper.EventMapper;
 import ru.practicum.ewm.base.mapper.RequestMapper;
-import ru.practicum.ewm.base.model.Event;
-import ru.practicum.ewm.base.model.Request;
+import ru.practicum.ewm.base.entity.Event;
+import ru.practicum.ewm.base.entity.Request;
 import ru.practicum.ewm.base.util.UtilMergeProperty;
 import ru.practicum.ewm.base.util.page.MyPageRequest;
 
@@ -46,10 +47,10 @@ public class PrivateEventsServiceImpl implements PrivateEventsService {
     private final CategoriesRepository categoriesRepository;
 
     @Override
-    public Set<EventShortDto> getAll(Long userId, Integer from, Integer size) {
+    public List<EventShortDto> getAll(Long userId, Integer from, Integer size) {
         MyPageRequest pageRequest = new MyPageRequest(from, size,
                 Sort.by(Sort.Direction.ASC, "id"));
-        Set<EventShortDto> eventShorts = EventMapper.toEventShortDtoList(eventRepository.findAll(pageRequest).toSet());
+        List<EventShortDto> eventShorts = EventMapper.toEventShortDtoList(eventRepository.findAll(pageRequest).toList());
         log.info("Get events list size: {}", eventShorts.size());
         return eventShorts;
     }
@@ -114,10 +115,13 @@ public class PrivateEventsServiceImpl implements PrivateEventsService {
         }
 
         UtilMergeProperty.copyProperties(eventUpdate, eventTarget);
-        if (UserStateAction.CANCEL_REVIEW.toString().equals(eventDto.getStateAction().toString())) {
-            eventTarget.setState(State.CANCELED);
-        } else if (UserStateAction.SEND_TO_REVIEW.toString().equals(eventDto.getStateAction().toString())) {
-            eventTarget.setState(State.PENDING);
+
+        if (eventDto.getStateAction() != null) {
+            if (UserStateAction.CANCEL_REVIEW.toString().equals(eventDto.getStateAction().toString())) {
+                eventTarget.setState(State.CANCELED);
+            } else if (UserStateAction.SEND_TO_REVIEW.toString().equals(eventDto.getStateAction().toString())) {
+                eventTarget.setState(State.PENDING);
+            }
         }
 
         eventRepository.flush();
@@ -211,7 +215,7 @@ public class PrivateEventsServiceImpl implements PrivateEventsService {
 
     private void checkEventDate(LocalDateTime eventDate) {
         if (eventDate != null && eventDate.isBefore(LocalDateTime.now().plusHours(2))) {
-            throw new ConflictException("Field: eventDate. Error: the date and time for which the event is scheduled" +
+            throw new BadRequestException("Field: eventDate. Error: the date and time for which the event is scheduled" +
                     " cannot be earlier than two hours from the current moment. Value: " + eventDate);
         }
     }

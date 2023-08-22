@@ -3,9 +3,9 @@ package ru.practicum.ewm.base.mapper;
 
 import lombok.experimental.UtilityClass;
 import ru.practicum.ewm.base.dto.request.ParticipationRequestDto;
-import ru.practicum.ewm.base.model.Event;
-import ru.practicum.ewm.base.model.Request;
-import ru.practicum.ewm.base.model.User;
+import ru.practicum.ewm.base.entity.Event;
+import ru.practicum.ewm.base.entity.Request;
+import ru.practicum.ewm.base.entity.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,7 +23,7 @@ public final class RequestMapper {
                 .requester(requester)
                 .event(event)
                 .created(LocalDateTime.now())
-                .status(event.getRequestModeration() ? PENDING : CONFIRMED)
+                .status(event.getParticipantLimit() == 0 ? CONFIRMED : event.getRequestModeration() ? PENDING : CONFIRMED)
                 .build();
     }
 

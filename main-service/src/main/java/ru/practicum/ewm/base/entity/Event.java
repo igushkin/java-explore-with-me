@@ -1,4 +1,4 @@
-package ru.practicum.ewm.base.model;
+package ru.practicum.ewm.base.entity;
 
 import lombok.*;
 import ru.practicum.ewm.base.enums.State;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "events")
+@Table(name = "event")
 public class Event {
 
     @Id
@@ -20,7 +20,7 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "annotation", nullable = false)
+    @Column(name = "annotation", nullable = false, columnDefinition = "text")
     private String annotation;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
@@ -32,7 +32,7 @@ public class Event {
     private long confirmedRequests;
     @Column(name = "createdOn")
     private LocalDateTime createdOn;
-    @Column(name = "description", nullable = false)
+    @Column(name = "description", nullable = false, columnDefinition = "text")
     private String description;
     @Column(name = "date")
     private LocalDateTime date;

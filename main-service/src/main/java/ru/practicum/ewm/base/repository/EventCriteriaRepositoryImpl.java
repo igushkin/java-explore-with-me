@@ -3,9 +3,9 @@ package ru.practicum.ewm.base.repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import ru.practicum.ewm.base.model.Category;
-import ru.practicum.ewm.base.model.Event;
-import ru.practicum.ewm.base.model.EventSearchCriteria;
+import ru.practicum.ewm.base.entity.Category;
+import ru.practicum.ewm.base.entity.Event;
+import ru.practicum.ewm.base.entity.EventSearchCriteria;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;

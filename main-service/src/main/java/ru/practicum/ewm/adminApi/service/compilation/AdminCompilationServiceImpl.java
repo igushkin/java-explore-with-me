@@ -14,9 +14,10 @@ import ru.practicum.ewm.base.dto.Compilation.UpdateCompilationRequest;
 import ru.practicum.ewm.base.exception.ConflictException;
 import ru.practicum.ewm.base.exception.NotFoundException;
 import ru.practicum.ewm.base.mapper.CompilationMapper;
-import ru.practicum.ewm.base.model.Compilation;
-import ru.practicum.ewm.base.model.Event;
+import ru.practicum.ewm.base.entity.Compilation;
+import ru.practicum.ewm.base.entity.Event;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -70,9 +71,9 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
         return CompilationMapper.toDto(compilationTarget);
     }
 
-    private Set<Event> findEvents(Set<Long> eventsId) {
+    private List<Event> findEvents(List<Long> eventsId) {
         if (eventsId == null) {
-            return Set.of();
+            return List.of();
         }
         return eventRepository.findAllByIdIn(eventsId);
     }

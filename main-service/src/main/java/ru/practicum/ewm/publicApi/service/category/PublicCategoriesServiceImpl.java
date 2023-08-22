@@ -9,7 +9,7 @@ import ru.practicum.ewm.base.repository.CategoriesRepository;
 import ru.practicum.ewm.base.dto.Category.CategoryDto;
 import ru.practicum.ewm.base.exception.NotFoundException;
 import ru.practicum.ewm.base.mapper.CategoryMapper;
-import ru.practicum.ewm.base.model.Category;
+import ru.practicum.ewm.base.entity.Category;
 import ru.practicum.ewm.base.util.page.MyPageRequest;
 
 import java.util.List;

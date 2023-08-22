@@ -26,9 +26,9 @@ public class PrivateEventsController {
     public final PrivateEventsService service;
 
     @GetMapping
-    public ResponseEntity<Set<EventShortDto>> getAll(@PathVariable Long userId,
-                                                     @RequestParam(defaultValue = "0") Integer from,
-                                                     @RequestParam(defaultValue = "10") Integer size) {
+    public ResponseEntity<List<EventShortDto>> getAll(@PathVariable Long userId,
+                                                      @RequestParam(defaultValue = "0") Integer from,
+                                                      @RequestParam(defaultValue = "10") Integer size) {
         log.info("Получен запрос GET /users{}/events c параметрами: from = {}, size = {}", userId, from, size);
         return new ResponseEntity<>(service.getAll(userId, from, size), HttpStatus.OK);
     }

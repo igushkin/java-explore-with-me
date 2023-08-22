@@ -1,17 +1,14 @@
 package ru.practicum.ewm.base.mapper;
 
 import lombok.experimental.UtilityClass;
-import ru.practicum.ewm.base.dto.event.UpdateEventAdminRequest;
-import ru.practicum.ewm.base.dto.event.UpdateEventUserRequest;
-import ru.practicum.ewm.base.dto.event.EventFullDto;
-import ru.practicum.ewm.base.dto.event.EventShortDto;
-import ru.practicum.ewm.base.dto.event.NewEventDto;
+import ru.practicum.ewm.base.dto.event.*;
 import ru.practicum.ewm.base.dto.location.LocationDto;
+import ru.practicum.ewm.base.entity.Event;
+import ru.practicum.ewm.base.entity.Location;
 import ru.practicum.ewm.base.enums.State;
-import ru.practicum.ewm.base.model.Event;
-import ru.practicum.ewm.base.model.Location;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -97,7 +94,7 @@ public final class EventMapper {
                 .build();
     }
 
-    public static Set<EventShortDto> toEventShortDtoList(Set<Event> events) {
-        return events.stream().map(EventMapper::toEventShortDto).collect(Collectors.toSet());
+    public static List<EventShortDto> toEventShortDtoList(List<Event> events) {
+        return events.stream().map(EventMapper::toEventShortDto).collect(Collectors.toList());
     }
 }

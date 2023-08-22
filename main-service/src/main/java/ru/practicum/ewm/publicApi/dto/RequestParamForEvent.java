@@ -23,4 +23,11 @@ public class RequestParamForEvent {
     private int from;
     private int size;
     private HttpServletRequest request;
+
+    public boolean isValid() {
+        if (rangeEnd != null && rangeStart != null && rangeEnd.isBefore(rangeStart)) {
+            return false;
+        }
+        return true;
+    }
 }

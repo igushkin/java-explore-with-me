@@ -1,4 +1,4 @@
-package ru.practicum.ewm.base.model;
+package ru.practicum.ewm.base.entity;
 
 import lombok.*;
 
@@ -17,7 +17,7 @@ public class User {
     @Column(name = "user_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
     @Column(name = "email", nullable = false)
     private String email;

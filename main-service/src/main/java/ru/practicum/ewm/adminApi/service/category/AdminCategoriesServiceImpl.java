@@ -13,7 +13,7 @@ import ru.practicum.ewm.base.exception.ConditionsNotMetException;
 import ru.practicum.ewm.base.exception.ConflictException;
 import ru.practicum.ewm.base.exception.NotFoundException;
 import ru.practicum.ewm.base.mapper.CategoryMapper;
-import ru.practicum.ewm.base.model.Category;
+import ru.practicum.ewm.base.entity.Category;
 import ru.practicum.ewm.base.util.UtilMergeProperty;
 
 @Service

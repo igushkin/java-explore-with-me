@@ -1,16 +1,24 @@
 package ru.practicum.explore_with_me;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import ru.practicum.explore_with_me.dto.HitDto;
 import ru.practicum.explore_with_me.dto.HitStatDto;
 
+import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -26,17 +34,38 @@ public class StatsClient {
 
     public List<HitStatDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique) {
         var strBuilder = new StringBuilder();
+        var startStr = start.format(DATE_TIME_FORMATTER);
+        var endStr = end.format(DATE_TIME_FORMATTER);
 
-        strBuilder.append(start.format(DATE_TIME_FORMATTER));
-        strBuilder.append(end.format(DATE_TIME_FORMATTER));
+        //strBuilder.append(SERVICE_URI);
+        //strBuilder.append("?start=" + start.format(DATE_TIME_FORMATTER));
+        //strBuilder.append("&end=" + end.format(DATE_TIME_FORMATTER));
 
         for (var uri : uris) {
             strBuilder.append("&uris=" + uri);
         }
 
-        strBuilder.append("&unique=" + unique);
+        var urisStr = strBuilder.toString();
 
-        String url = URLEncoder.encode(strBuilder.toString());
-        return (List<HitStatDto>) (restTemplate.getForEntity(url, List.class));
+        //strBuilder.append("&unique=" + unique);
+
+        //String url = URLEncoder.encode(strBuilder.toString());
+
+        String url = SERVICE_URI + "stats/" + "?start=" + startStr + "&end=" + endStr + urisStr + "&unique=" + unique;
+        //url = url.replace("+", "%20");
+
+/*        var a = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                new HttpEntity<>(new HttpHeaders()),
+                new ParameterizedTypeReference<>() {
+                },
+                Map.of()
+        );*/
+
+        return restTemplate.exchange(url, HttpMethod.GET, HttpEntity.EMPTY, new ParameterizedTypeReference<List<HitStatDto>>() {
+        }).getBody();
+
+        //return (List<HitStatDto>) ((restTemplate.getForEntity(url, List.class)).getBody());
     }
 }

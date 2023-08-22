@@ -5,11 +5,11 @@ import ru.practicum.ewm.base.dto.event.EventShortDto;
 import ru.practicum.ewm.publicApi.dto.RequestParamForEvent;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Set;
+import java.util.List;
 
 public interface PublicEventsService {
 
-    Set<EventShortDto> getAll(RequestParamForEvent param);
+    List<EventShortDto> getAll(RequestParamForEvent param);
 
     EventFullDto get(Long id, HttpServletRequest request);
 }

@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.adminApi.dto.RequestParamForEvent;
+import ru.practicum.ewm.base.exception.BadRequestException;
 import ru.practicum.ewm.base.repository.EventRepository;
 import ru.practicum.ewm.base.dto.event.EventFullDto;
 import ru.practicum.ewm.base.dto.event.UpdateEventAdminRequest;
@@ -15,7 +16,7 @@ import ru.practicum.ewm.base.enums.State;
 import ru.practicum.ewm.base.exception.ConflictException;
 import ru.practicum.ewm.base.exception.NotFoundException;
 import ru.practicum.ewm.base.mapper.EventMapper;
-import ru.practicum.ewm.base.model.Event;
+import ru.practicum.ewm.base.entity.Event;
 import ru.practicum.ewm.base.util.UtilMergeProperty;
 import ru.practicum.ewm.base.util.page.MyPageRequest;
 
@@ -45,7 +46,7 @@ public class AdminEventsServiceImpl implements AdminEventsService {
             throw new ConflictException("Cannot publish the event because it's not in the right state: PUBLISHED");
         } else if (event.getState().equals(State.CANCELED)) {
             throw new ConflictException("Cannot publish the event because it's not in the right state: CANCELED");
-        } else {
+        } else if (dto.getStateAction() != null) {
             if (dto.getStateAction().toString().equals(AdminStateAction.PUBLISH_EVENT.toString())) {
                 event.setState(State.PUBLISHED);
             }
@@ -69,9 +70,15 @@ public class AdminEventsServiceImpl implements AdminEventsService {
     public List<EventFullDto> getAll(RequestParamForEvent param) {
         MyPageRequest pageable = new MyPageRequest(param.getFrom(), param.getSize(),
                 Sort.by(Sort.Direction.ASC, "id"));
+
         List<Event> events = eventRepository.findEventsByParams(
-                param.getUsers(), param.getStates(), param.getCategories(), param.getRangeStart(),
-                param.getRangeEnd(), pageable);
+                param.getUsers(),
+                param.getStates(),
+                param.getCategories(),
+                param.getRangeStart(),
+                param.getRangeEnd(),
+                pageable);
+
         return events.stream()
                 .map(EventMapper::toEventFullDto)
                 .collect(Collectors.toList());
@@ -79,7 +86,7 @@ public class AdminEventsServiceImpl implements AdminEventsService {
 
     private void checkEventDate(LocalDateTime eventDate) {
         if (eventDate.isBefore(LocalDateTime.now().plusHours(2))) {
-            throw new ConflictException("Field: eventDate. Error: the date and time for which the event is scheduled" +
+            throw new BadRequestException("Field: eventDate. Error: the date and time for which the event is scheduled" +
                     " cannot be earlier than two hours from the current moment. Value: " + eventDate);
         }
     }

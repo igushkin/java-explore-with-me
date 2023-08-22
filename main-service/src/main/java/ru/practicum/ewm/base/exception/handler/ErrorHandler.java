@@ -6,6 +6,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import ru.practicum.ewm.base.exception.BadRequestException;
 import ru.practicum.ewm.base.exception.ConditionsNotMetException;
 import ru.practicum.ewm.base.exception.ConflictException;
 import ru.practicum.ewm.base.exception.NotFoundException;
@@ -57,7 +58,7 @@ public class ErrorHandler {
         return new ApiError(
                 HttpStatus.BAD_REQUEST.toString(),
                 "Incorrectly made request.",
-                String.format("Field: %s. Error: must not be blank. Value: %s", field, e.getFieldValue(field)));
+                e.getMessage());
     }
 
     @ExceptionHandler
@@ -71,4 +72,14 @@ public class ErrorHandler {
                 e.getMessage());
     }
 
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiError handleBadRequest(final BadRequestException e) {
+        log.error(e.getLocalizedMessage(), e.getMessage());
+
+        return new ApiError(
+                HttpStatus.BAD_REQUEST.toString(),
+                "Incorrectly made request.",
+                e.getMessage());
+    }
 }

@@ -4,7 +4,7 @@ import lombok.experimental.UtilityClass;
 import ru.practicum.ewm.base.dto.user.NewUserRequest;
 import ru.practicum.ewm.base.dto.user.UserDto;
 import ru.practicum.ewm.base.dto.user.UserShortDto;
-import ru.practicum.ewm.base.model.User;
+import ru.practicum.ewm.base.entity.User;
 
 import java.util.List;
 import java.util.stream.Collectors;

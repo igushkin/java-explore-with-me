@@ -5,6 +5,7 @@ import ru.practicum.ewm.base.util.notblanknull.NotBlankNull;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 @Getter
@@ -14,10 +15,10 @@ import javax.validation.constraints.Size;
 @Builder
 public class NewUserRequest {
     @NotBlank
-    @Size(max = 128)
+    @Size(min = 2, max = 250)
     private String name;
     @Email
-    @NotBlankNull
-    @Size(max = 255)
+    @NotEmpty
+    @Size(min = 6, max = 254)
     private String email;
 }
