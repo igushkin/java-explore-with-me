@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explore_with_me.dto.HitDto;
 import ru.practicum.explore_with_me.dto.HitStatDto;
-import ru.practicum.explore_with_me.service.StatsService;
+import ru.practicum.explore_with_me.service.StatsServiceImpl;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StatsController {
 
-    private final StatsService statsService;
+    private final StatsServiceImpl statsService;
 
     @PostMapping("/hit")
     public ResponseEntity hit(@RequestBody HitDto hitDto) {
