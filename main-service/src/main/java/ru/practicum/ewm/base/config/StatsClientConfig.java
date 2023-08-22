@@ -8,9 +8,6 @@ import ru.practicum.explore_with_me.StatsClient;
 @Configuration
 public class StatsClientConfig {
 
-/*    @Value("${stats-service.url}")
-    private String url;*/
-
     @Bean
     StatsClient statsClient() {
         RestTemplateBuilder builder = new RestTemplateBuilder();

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.practicum.explore_with_me.dto.HitDto;
 import ru.practicum.explore_with_me.dto.HitStatDto;
 import ru.practicum.explore_with_me.entity.Hit;
+import ru.practicum.explore_with_me.exception.BadRequestException;
 import ru.practicum.explore_with_me.mapper.HitMapper;
 import ru.practicum.explore_with_me.repository.HitRepository;
 
@@ -24,6 +25,10 @@ public class StatsService {
     }
 
     public List<HitStatDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique) {
+        if (start.isBefore(end)) {
+            throw new BadRequestException("Start date before end date");
+        }
+
         uris = uris.size() == 0 ? null : uris;
 
         if (unique)

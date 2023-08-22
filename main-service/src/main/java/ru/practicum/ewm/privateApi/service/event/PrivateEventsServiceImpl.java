@@ -80,7 +80,6 @@ public class PrivateEventsServiceImpl implements PrivateEventsService {
         event.setCategory(categoriesRepository.findById(eventDto.getCategory())
                 .orElseThrow(() -> new NotFoundException(String.format("Category with id=%d was not found",
                         eventDto.getCategory()))));
-        // event.setConfirmedRequests(0L);
         event.setPublishedOn(LocalDateTime.now());
         event.setInitiator(userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException(String.format("User with id=%d was not found", userId))));

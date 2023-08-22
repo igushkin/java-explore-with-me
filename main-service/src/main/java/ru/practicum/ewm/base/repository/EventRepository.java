@@ -22,22 +22,6 @@ public interface EventRepository extends JpaRepository<Event, Long>, EventCriter
 
     List<Event> findAllByIdIn(List<Long> ids);
 
-
-/*    @Query("SELECT e FROM Event e " +
-            "WHERE e.initiator.id IN (:users) " +
-            "AND e.state IN (:states) " +
-            "AND e.category.id IN (:categories) " +
-            "AND e.date BETWEEN :rangeStart AND :rangeEnd")
-    List<Event> findEventsByParams(
-            @Param("users") List<Long> users,
-            @Param("states") List<State> states,
-            @Param("categories") List<Long> categories,
-            @Param("rangeStart") LocalDateTime rangeStart,
-            @Param("rangeEnd") LocalDateTime rangeEnd,
-            Pageable pageable);
-
-    boolean existsByIdAndInitiatorId(Long id, Long userId);*/
-
     @Query("SELECT e FROM Event e " +
             "WHERE (:users IS NULL or e.initiator.id IN (:users)) " +
             "AND (:states IS NULL or e.state IN (:states)) " +
