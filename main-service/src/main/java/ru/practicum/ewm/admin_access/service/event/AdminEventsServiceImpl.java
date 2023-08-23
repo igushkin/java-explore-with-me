@@ -48,9 +48,11 @@ public class AdminEventsServiceImpl implements AdminEventsService {
             throw new ConflictException("Cannot publish the event because it's not in the right state: CANCELED");
         }
 
-        if (dto.getStateAction().toString().equals(AdminStateAction.PUBLISH_EVENT.toString())) {
+        var stateAction = dto.getStateAction() == null ? null : dto.getStateAction().toString();
+
+        if (AdminStateAction.PUBLISH_EVENT.toString().equals(stateAction)) {
             event.setState(State.PUBLISHED);
-        } else if (dto.getStateAction().toString().equals(AdminStateAction.REJECT_EVENT.toString())) {
+        } else if (AdminStateAction.REJECT_EVENT.toString().equals(stateAction)) {
             event.setState(State.CANCELED);
         }
 

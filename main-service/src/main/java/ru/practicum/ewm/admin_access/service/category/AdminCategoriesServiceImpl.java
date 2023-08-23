@@ -43,8 +43,9 @@ public class AdminCategoriesServiceImpl implements AdminCategoriesService {
     public void delete(Long catId) {
         try {
             categoriesRepository.deleteById(catId);
+            categoriesRepository.flush();
             log.info("Deleted category with id = {}", catId);
-        } catch (ConstraintViolationException e) {
+        } catch (Exception e) {
             throw new ConditionsNotMetException("The category is not empty");
         }
     }
@@ -57,6 +58,7 @@ public class AdminCategoriesServiceImpl implements AdminCategoriesService {
 
         try {
             UtilMergeProperty.copyProperties(categoryUpdate, categoryTarget);
+            categoriesRepository.flush();
         } catch (DataIntegrityViolationException e) {
             throw new ConflictException(e.getMessage(), e);
         }
