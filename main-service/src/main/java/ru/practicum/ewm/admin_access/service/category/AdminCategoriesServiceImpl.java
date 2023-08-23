@@ -13,7 +13,6 @@ import ru.practicum.ewm.common.exception.ConflictException;
 import ru.practicum.ewm.common.exception.NotFoundException;
 import ru.practicum.ewm.common.mapper.CategoryMapper;
 import ru.practicum.ewm.common.repository.CategoriesRepository;
-import ru.practicum.ewm.common.repository.EventRepository;
 import ru.practicum.ewm.common.util.UtilMergeProperty;
 
 import javax.validation.ConstraintViolationException;
