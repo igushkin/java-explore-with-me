@@ -15,8 +15,6 @@ import ru.practicum.ewm.common.mapper.CategoryMapper;
 import ru.practicum.ewm.common.repository.CategoriesRepository;
 import ru.practicum.ewm.common.util.UtilMergeProperty;
 
-import javax.validation.ConstraintViolationException;
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
