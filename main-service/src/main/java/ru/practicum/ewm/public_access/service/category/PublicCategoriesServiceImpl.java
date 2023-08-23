@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.ewm.common.dto.Category.CategoryDto;
+import ru.practicum.ewm.common.dto.category.CategoryDto;
 import ru.practicum.ewm.common.entity.Category;
 import ru.practicum.ewm.common.exception.NotFoundException;
 import ru.practicum.ewm.common.mapper.CategoryMapper;

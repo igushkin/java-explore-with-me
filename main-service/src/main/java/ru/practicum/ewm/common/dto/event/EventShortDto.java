@@ -3,7 +3,7 @@ package ru.practicum.ewm.common.dto.event;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
-import ru.practicum.ewm.common.dto.Category.CategoryDto;
+import ru.practicum.ewm.common.dto.category.CategoryDto;
 import ru.practicum.ewm.common.dto.user.UserShortDto;
 
 import java.time.LocalDateTime;

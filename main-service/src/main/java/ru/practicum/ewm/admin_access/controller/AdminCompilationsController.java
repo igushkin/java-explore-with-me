@@ -7,9 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.admin_access.service.compilation.AdminCompilationService;
-import ru.practicum.ewm.common.dto.Compilation.CompilationDto;
-import ru.practicum.ewm.common.dto.Compilation.NewCompilationDto;
-import ru.practicum.ewm.common.dto.Compilation.UpdateCompilationRequest;
+import ru.practicum.ewm.common.dto.compilation.CompilationDto;
+import ru.practicum.ewm.common.dto.compilation.NewCompilationDto;
+import ru.practicum.ewm.common.dto.compilation.UpdateCompilationRequest;
 
 import javax.validation.Valid;
 

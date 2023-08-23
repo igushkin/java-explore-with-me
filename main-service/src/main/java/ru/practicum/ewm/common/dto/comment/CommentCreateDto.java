@@ -1,4 +1,4 @@
-package ru.practicum.dto;
+package ru.practicum.ewm.common.dto.comment;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,12 +9,12 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Data
-@NoArgsConstructor(force = true)
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class CommentCreateDto {
 
     @NotBlank
-    @Size(min = 1, max = 7000)
-    private final String text;
+    @Size(min = 1)
+    private String text;
 }

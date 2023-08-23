@@ -1,9 +1,9 @@
 package ru.practicum.ewm.common.mapper;
 
 import lombok.experimental.UtilityClass;
-import ru.practicum.ewm.common.dto.Compilation.CompilationDto;
-import ru.practicum.ewm.common.dto.Compilation.NewCompilationDto;
-import ru.practicum.ewm.common.dto.Compilation.UpdateCompilationRequest;
+import ru.practicum.ewm.common.dto.compilation.CompilationDto;
+import ru.practicum.ewm.common.dto.compilation.NewCompilationDto;
+import ru.practicum.ewm.common.dto.compilation.UpdateCompilationRequest;
 import ru.practicum.ewm.common.entity.Compilation;
 
 import java.util.List;

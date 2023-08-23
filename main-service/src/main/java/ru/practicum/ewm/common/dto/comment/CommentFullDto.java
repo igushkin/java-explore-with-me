@@ -1,9 +1,11 @@
-package ru.practicum.dto;
+package ru.practicum.ewm.common.dto.comment;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import ru.practicum.ewm.common.dto.user.UserShortDto;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -11,10 +13,9 @@ import java.util.List;
 @Builder
 public class CommentFullDto {
 
-    private final Long id;
-    private final String createdOn;
-    private final String updateOn;
-    private final UserShortDto commentator;
-    private final String text;
-    private List<CommentFullDto> subComments;
+    private Long id;
+    private LocalDateTime createdOn;
+    private LocalDateTime updateOn;
+    private UserShortDto commentator;
+    private String text;
 }
