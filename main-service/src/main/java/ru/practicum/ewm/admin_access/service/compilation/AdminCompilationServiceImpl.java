@@ -17,6 +17,7 @@ import ru.practicum.ewm.common.mapper.CompilationMapper;
 import ru.practicum.ewm.common.repository.CompilationRepository;
 import ru.practicum.ewm.common.repository.EventRepository;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -72,7 +73,7 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
 
     private List<Event> findEvents(List<Long> eventsId) {
         if (eventsId == null) {
-            return List.of();
+            return Collections.emptyList();
         }
         return eventRepository.findAllByIdIn(eventsId);
     }

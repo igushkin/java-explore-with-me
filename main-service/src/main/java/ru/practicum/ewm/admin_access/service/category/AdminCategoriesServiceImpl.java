@@ -16,6 +16,8 @@ import ru.practicum.ewm.common.repository.CategoriesRepository;
 import ru.practicum.ewm.common.repository.EventRepository;
 import ru.practicum.ewm.common.util.UtilMergeProperty;
 
+import javax.validation.ConstraintViolationException;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -23,8 +25,6 @@ import ru.practicum.ewm.common.util.UtilMergeProperty;
 public class AdminCategoriesServiceImpl implements AdminCategoriesService {
 
     private final CategoriesRepository categoriesRepository;
-
-    private final EventRepository eventRepository;
 
     @Transactional
     @Override
@@ -42,11 +42,11 @@ public class AdminCategoriesServiceImpl implements AdminCategoriesService {
     @Transactional
     @Override
     public void delete(Long catId) {
-        if (eventRepository.existsByCategory(get(catId))) {
-            throw new ConditionsNotMetException("The category is not empty");
-        } else  {
-            log.info("Deleted category with id = {}", catId);
+        try {
             categoriesRepository.deleteById(catId);
+            log.info("Deleted category with id = {}", catId);
+        } catch (ConstraintViolationException e) {
+            throw new ConditionsNotMetException("The category is not empty");
         }
     }
 
@@ -54,11 +54,10 @@ public class AdminCategoriesServiceImpl implements AdminCategoriesService {
     @Override
     public CategoryDto update(NewCategoryDto dto, Long catId) {
         Category categoryUpdate = CategoryMapper.toEntity(dto);
-        Category categoryTarget = get(catId);
+        Category categoryTarget = getCategoryById(catId);
 
         try {
             UtilMergeProperty.copyProperties(categoryUpdate, categoryTarget);
-            categoriesRepository.flush();
         } catch (DataIntegrityViolationException e) {
             throw new ConflictException(e.getMessage(), e);
         }
@@ -66,7 +65,7 @@ public class AdminCategoriesServiceImpl implements AdminCategoriesService {
         return CategoryMapper.toDto(categoryTarget);
     }
 
-    private Category get(Long id) {
+    private Category getCategoryById(Long id) {
         final Category category = categoriesRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.format("Category not found with id = %s", id)));
         log.info("Get category: {}", category.getName());

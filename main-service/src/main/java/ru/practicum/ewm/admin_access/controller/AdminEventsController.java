@@ -14,6 +14,7 @@ import ru.practicum.ewm.admin_access.service.event.AdminEventsService;
 import ru.practicum.ewm.common.dto.event.EventFullDto;
 import ru.practicum.ewm.common.dto.event.UpdateEventAdminRequest;
 import ru.practicum.ewm.common.enums.State;
+import ru.practicum.ewm.common.exception.BadRequestException;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
@@ -32,7 +33,7 @@ public class AdminEventsController {
 
     public final AdminEventsService adminEventsService;
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<EventFullDto>> getAll(@RequestParam(required = false) List<Long> users,
                                                      @RequestParam(required = false) List<String> states,
                                                      @RequestParam(required = false) List<Long> categories,
@@ -56,6 +57,10 @@ public class AdminEventsController {
                 .from(from)
                 .size(size)
                 .build();
+
+        if (!param.isValid()) {
+            throw new BadRequestException("Request params are not valid");
+        }
 
         return new ResponseEntity<>(adminEventsService.getAll(param), HttpStatus.OK);
     }

@@ -62,7 +62,7 @@ public class PublicEventsController {
                 .build();
 
         if (!param.isValid()) {
-            throw new BadRequestException("");
+            throw new BadRequestException("Request params are not valid");
         }
 
         return new ResponseEntity<>(eventsService.getAll(param), HttpStatus.OK);

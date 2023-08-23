@@ -24,26 +24,26 @@ import java.util.List;
 @Validated
 public class AdminUsersController {
 
-    private final AdminUserService service;
+    private final AdminUserService adminUserService;
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<UserDto>> getAll(@RequestParam(required = false) List<Long> ids,
                                                 @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
                                                 @RequestParam(defaultValue = "10") @Positive Integer size) {
         log.info("Получен запрос GET /admin/users");
-        return new ResponseEntity<>(service.getAll(ids, from, size), HttpStatus.OK);
+        return new ResponseEntity<>(adminUserService.getAll(ids, from, size), HttpStatus.OK);
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<UserDto> save(@RequestBody @Valid NewUserRequest newUserRequest) {
         log.info("Получен запрос POST /admin/users c новым пользователем: {}", newUserRequest.getEmail());
-        return new ResponseEntity<>(service.save(newUserRequest), HttpStatus.CREATED);
+        return new ResponseEntity<>(adminUserService.save(newUserRequest), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<Void> delete(@PathVariable Long userId) {
         log.info("Получен запрос DELETE /admin/users/{}", userId);
-        service.delete(userId);
+        adminUserService.delete(userId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

@@ -18,18 +18,18 @@ import javax.validation.Valid;
 @RequestMapping("/admin/categories")
 public class AdminCategoriesController {
 
-    public final AdminCategoriesService service;
+    public final AdminCategoriesService adminCategoriesService;
 
     @PostMapping
     public ResponseEntity<CategoryDto> create(@RequestBody @Valid NewCategoryDto dto) {
         log.info("Получен запрос POST /admin/categories c новой категорией: {}", dto.getName());
-        return new ResponseEntity<>(service.create(dto), HttpStatus.CREATED);
+        return new ResponseEntity<>(adminCategoriesService.create(dto), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{catId}")
     public ResponseEntity<Void> delete(@PathVariable Long catId) {
         log.info("Получен запрос DELETE /admin/categories/{}", catId);
-        service.delete(catId);
+        adminCategoriesService.delete(catId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -37,6 +37,6 @@ public class AdminCategoriesController {
     public ResponseEntity<CategoryDto> update(@RequestBody @Valid NewCategoryDto dto,
                                               @PathVariable Long catId) {
         log.info("Получен запрос PATCH /admin/categories/{} на изменение категориии: {}", catId, dto.getName());
-        return new ResponseEntity<>(service.update(dto, catId), HttpStatus.OK);
+        return new ResponseEntity<>(adminCategoriesService.update(dto, catId), HttpStatus.OK);
     }
 }

@@ -18,26 +18,26 @@ import java.util.List;
 @RequestMapping("/users/{userId}/requests")
 public class PrivateRequestController {
 
-    private final PrivateRequestService service;
+    private final PrivateRequestService privateRequestService;
 
     @GetMapping
     public ResponseEntity<List<ParticipationRequestDto>> getRequests(@PathVariable Long userId) {
         log.info("Получен запрос GET /users/{}/requests", userId);
-        return new ResponseEntity<>(service.getRequests(userId), HttpStatus.OK);
+        return new ResponseEntity<>(privateRequestService.getRequests(userId), HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<ParticipationRequestDto> create(@PathVariable Long userId,
                                                           @RequestParam Long eventId) {
         log.info("Получен запрос POST /users/{}/requests c новым запросом на участие в Event с id = {}", userId, eventId);
-        return new ResponseEntity<>(service.create(userId, eventId), HttpStatus.CREATED);
+        return new ResponseEntity<>(privateRequestService.create(userId, eventId), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{requestsId}/cancel")
     public ResponseEntity<ParticipationRequestDto> update(@PathVariable Long userId, @PathVariable Long requestsId) {
         log.info("Получен запрос PATCH /users/{}/requests/{requestsId}/cancel" +
                 " c отменой запроса id = {}", userId, requestsId);
-        return new ResponseEntity<>(service.update(userId, requestsId), HttpStatus.OK);
+        return new ResponseEntity<>(privateRequestService.update(userId, requestsId), HttpStatus.OK);
     }
 
 }

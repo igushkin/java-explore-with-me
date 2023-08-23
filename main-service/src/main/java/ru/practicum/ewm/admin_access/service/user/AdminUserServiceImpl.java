@@ -3,6 +3,7 @@ package ru.practicum.ewm.admin_access.service.user;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +11,7 @@ import ru.practicum.ewm.common.dto.user.NewUserRequest;
 import ru.practicum.ewm.common.dto.user.UserDto;
 import ru.practicum.ewm.common.entity.User;
 import ru.practicum.ewm.common.exception.ConflictException;
+import ru.practicum.ewm.common.exception.NotFoundException;
 import ru.practicum.ewm.common.mapper.UserMapper;
 import ru.practicum.ewm.common.repository.UserRepository;
 import ru.practicum.ewm.common.util.MyPageRequest;
@@ -53,9 +55,12 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Transactional
     @Override
     public void delete(Long userId) {
-        if (userRepository.existsById(userId)) {
-            log.info("Deleted user with id = {}", userId);
+        try {
             userRepository.deleteById(userId);
+            log.info("Deleted user with id = {}", userId);
+        } catch (EmptyResultDataAccessException e) {
+            log.info("User with id = {} was not found", userId);
+            throw new NotFoundException("User with id = " + userId + " was not found");
         }
     }
 }

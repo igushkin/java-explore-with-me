@@ -19,18 +19,18 @@ import javax.validation.Valid;
 @Slf4j
 @RequestMapping("/admin/compilations")
 public class AdminCompilationsController {
-    private final AdminCompilationService service;
+    private final AdminCompilationService adminCompilationService;
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<CompilationDto> save(@RequestBody @Valid NewCompilationDto newCompilationDto) {
         log.info("Получен запрос POST /admin/compilations c новой подборкой: {}", newCompilationDto.getTitle());
-        return new ResponseEntity<>(service.save(newCompilationDto), HttpStatus.CREATED);
+        return new ResponseEntity<>(adminCompilationService.save(newCompilationDto), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{compId}")
     public ResponseEntity<Void> delete(@PathVariable Long compId) {
         log.info("Получен запрос DELETE /admin/compilations/{}", compId);
-        service.delete(compId);
+        adminCompilationService.delete(compId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -38,6 +38,6 @@ public class AdminCompilationsController {
     public ResponseEntity<CompilationDto> update(@PathVariable Long compId,
                                                  @RequestBody @Valid UpdateCompilationRequest updateCompilationRequest) {
         log.info("Получен запрос PATCH /admin/compilations/{} на изменение подборки.", compId);
-        return new ResponseEntity<>(service.update(compId, updateCompilationRequest), HttpStatus.OK);
+        return new ResponseEntity<>(adminCompilationService.update(compId, updateCompilationRequest), HttpStatus.OK);
     }
 }

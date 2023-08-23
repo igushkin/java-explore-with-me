@@ -122,7 +122,6 @@ public class PrivateEventsServiceImpl implements PrivateEventsService {
             }
         }
 
-        eventRepository.flush();
         log.info("Update event: {}", eventTarget.getTitle());
         return EventMapper.toEventFullDto(eventTarget);
     }

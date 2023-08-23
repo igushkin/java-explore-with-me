@@ -22,35 +22,35 @@ import java.util.List;
 @RequestMapping("/users/{userId}/events")
 public class PrivateEventsController {
 
-    public final PrivateEventsService service;
+    public final PrivateEventsService privateEventsService;
 
     @GetMapping
     public ResponseEntity<List<EventShortDto>> getAll(@PathVariable Long userId,
                                                       @RequestParam(defaultValue = "0") Integer from,
                                                       @RequestParam(defaultValue = "10") Integer size) {
         log.info("Получен запрос GET /users{}/events c параметрами: from = {}, size = {}", userId, from, size);
-        return new ResponseEntity<>(service.getAll(userId, from, size), HttpStatus.OK);
+        return new ResponseEntity<>(privateEventsService.getAll(userId, from, size), HttpStatus.OK);
     }
 
     @GetMapping("/{eventId}")
     public ResponseEntity<EventFullDto> get(@PathVariable Long userId,
                                             @PathVariable Long eventId) {
         log.info("Получен запрос GET /users{}/events/{}", userId, eventId);
-        return new ResponseEntity<>(service.get(userId, eventId), HttpStatus.OK);
+        return new ResponseEntity<>(privateEventsService.get(userId, eventId), HttpStatus.OK);
     }
 
     @GetMapping("/{eventId}/requests")
     public ResponseEntity<List<ParticipationRequestDto>> getRequests(@PathVariable Long userId,
                                                                      @PathVariable Long eventId) {
         log.info("Получен запрос GET /users/{}/events/{}/requests", userId, eventId);
-        return new ResponseEntity<>(service.getRequests(userId, eventId), HttpStatus.OK);
+        return new ResponseEntity<>(privateEventsService.getRequests(userId, eventId), HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<EventFullDto> create(@PathVariable Long userId,
                                                @RequestBody @Valid NewEventDto eventDto) {
         log.info("Получен запрос POST /users/{}/events c новым событием: {}", userId, eventDto);
-        return new ResponseEntity<>(service.create(userId, eventDto), HttpStatus.CREATED);
+        return new ResponseEntity<>(privateEventsService.create(userId, eventDto), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{eventId}")
@@ -58,7 +58,7 @@ public class PrivateEventsController {
                                                @RequestBody @Valid UpdateEventUserRequest eventDto) {
         log.info("Получен запрос PATCH /users/{}/events/{eventId}" +
                 " c обновлённым событием id = {}: {}", userId, eventId, eventDto);
-        return new ResponseEntity<>(service.update(userId, eventId, eventDto), HttpStatus.OK);
+        return new ResponseEntity<>(privateEventsService.update(userId, eventId, eventDto), HttpStatus.OK);
     }
 
     @PatchMapping("/{eventId}/requests")
@@ -70,6 +70,6 @@ public class PrivateEventsController {
         if (Status.from(request.getStatus()) == null) {
             throw new ConflictException("Status is not validate");
         }
-        return new ResponseEntity<>(service.updateRequestStatus(userId, eventId, request), HttpStatus.OK);
+        return new ResponseEntity<>(privateEventsService.updateRequestStatus(userId, eventId, request), HttpStatus.OK);
     }
 }

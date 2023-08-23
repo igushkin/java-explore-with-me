@@ -38,6 +38,6 @@ public class Compilation {
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return this.id.hashCode();
     }
 }

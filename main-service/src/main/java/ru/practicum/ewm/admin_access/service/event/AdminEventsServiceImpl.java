@@ -46,13 +46,12 @@ public class AdminEventsServiceImpl implements AdminEventsService {
             throw new ConflictException("Cannot publish the event because it's not in the right state: PUBLISHED");
         } else if (event.getState().equals(State.CANCELED)) {
             throw new ConflictException("Cannot publish the event because it's not in the right state: CANCELED");
-        } else if (dto.getStateAction() != null) {
-            if (dto.getStateAction().toString().equals(AdminStateAction.PUBLISH_EVENT.toString())) {
-                event.setState(State.PUBLISHED);
-            }
-            if (dto.getStateAction().toString().equals(AdminStateAction.REJECT_EVENT.toString())) {
-                event.setState(State.CANCELED);
-            }
+        }
+
+        if (dto.getStateAction().toString().equals(AdminStateAction.PUBLISH_EVENT.toString())) {
+            event.setState(State.PUBLISHED);
+        } else if (dto.getStateAction().toString().equals(AdminStateAction.REJECT_EVENT.toString())) {
+            event.setState(State.CANCELED);
         }
 
         UtilMergeProperty.copyProperties(eventUpdate, event);
