@@ -6,7 +6,6 @@ import lombok.Data;
 import ru.practicum.ewm.common.dto.user.UserShortDto;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
