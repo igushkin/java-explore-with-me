@@ -1,13 +1,12 @@
 package ru.practicum.ewm.common.dto.comment;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import ru.practicum.ewm.common.dto.user.UserShortDto;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @Builder
 public class CommentFullDto {
