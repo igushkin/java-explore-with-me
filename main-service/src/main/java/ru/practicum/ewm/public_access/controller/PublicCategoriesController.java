@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.practicum.ewm.common.dto.Category.CategoryDto;
+import ru.practicum.ewm.common.dto.category.CategoryDto;
 import ru.practicum.ewm.public_access.service.category.PublicCategoriesService;
 
 import java.util.List;

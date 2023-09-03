@@ -7,8 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.admin_access.service.category.AdminCategoriesService;
-import ru.practicum.ewm.common.dto.Category.CategoryDto;
-import ru.practicum.ewm.common.dto.Category.NewCategoryDto;
+import ru.practicum.ewm.common.dto.category.CategoryDto;
+import ru.practicum.ewm.common.dto.category.NewCategoryDto;
 
 import javax.validation.Valid;
 

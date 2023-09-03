@@ -1,5 +1,7 @@
 package ru.practicum.ewm.private_access.service.event;
 
+import ru.practicum.ewm.common.dto.comment.CommentCreateDto;
+import ru.practicum.ewm.common.dto.comment.CommentFullDto;
 import ru.practicum.ewm.common.dto.event.*;
 import ru.practicum.ewm.common.dto.request.ParticipationRequestDto;
 
@@ -17,4 +19,11 @@ public interface PrivateEventsService {
     EventFullDto update(Long userId, Long eventId, UpdateEventUserRequest eventDto);
 
     EventRequestStatusUpdateResult updateRequestStatus(Long userId, Long eventId, EventRequestStatusUpdateRequest request);
+
+
+    CommentFullDto createComment(CommentCreateDto dto, Long userId, Long eventId);
+
+    CommentFullDto updateComment(CommentCreateDto dto, Long commentId, Long userId);
+
+    void deleteComment(Long commentId, Long userId);
 }

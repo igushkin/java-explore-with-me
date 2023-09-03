@@ -1,4 +1,4 @@
-package ru.practicum.ewm.common.dto.Compilation;
+package ru.practicum.ewm.common.dto.compilation;
 
 import lombok.*;
 import ru.practicum.ewm.common.dto.event.EventShortDto;

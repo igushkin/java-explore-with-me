@@ -6,21 +6,23 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.practicum.ewm.common.dto.comment.CommentCreateDto;
+import ru.practicum.ewm.common.dto.comment.CommentFullDto;
 import ru.practicum.ewm.common.dto.event.*;
 import ru.practicum.ewm.common.dto.request.ParticipationRequestDto;
+import ru.practicum.ewm.common.entity.Comment;
 import ru.practicum.ewm.common.entity.Event;
 import ru.practicum.ewm.common.entity.Request;
+import ru.practicum.ewm.common.entity.User;
 import ru.practicum.ewm.common.enums.State;
 import ru.practicum.ewm.common.enums.UserStateAction;
 import ru.practicum.ewm.common.exception.BadRequestException;
 import ru.practicum.ewm.common.exception.ConflictException;
 import ru.practicum.ewm.common.exception.NotFoundException;
+import ru.practicum.ewm.common.mapper.CommentMapper;
 import ru.practicum.ewm.common.mapper.EventMapper;
 import ru.practicum.ewm.common.mapper.RequestMapper;
-import ru.practicum.ewm.common.repository.CategoriesRepository;
-import ru.practicum.ewm.common.repository.EventRepository;
-import ru.practicum.ewm.common.repository.RequestRepository;
-import ru.practicum.ewm.common.repository.UserRepository;
+import ru.practicum.ewm.common.repository.*;
 import ru.practicum.ewm.common.util.MyPageRequest;
 import ru.practicum.ewm.common.util.UtilMergeProperty;
 
@@ -44,6 +46,8 @@ public class PrivateEventsServiceImpl implements PrivateEventsService {
     private final RequestRepository requestRepository;
 
     private final CategoriesRepository categoriesRepository;
+
+    private final CommentRepository commentRepository;
 
     @Override
     public List<EventShortDto> getAll(Long userId, Integer from, Integer size) {
@@ -215,4 +219,53 @@ public class PrivateEventsServiceImpl implements PrivateEventsService {
         }
     }
 
+    @Transactional
+    @Override
+    public CommentFullDto createComment(CommentCreateDto dto, Long userId, Long eventId) {
+
+        User commentator = userRepository.findById(userId).orElseThrow(() -> new NotFoundException(
+                String.format("User not found with id = %s", userId)));
+
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> new NotFoundException(
+                String.format("Event not found with id = %s", eventId)));
+
+        if (!event.getState().equals(State.PUBLISHED)) {
+            log.info("event state {}", event.getState());
+            throw new BadRequestException("You can only comment on published events");
+        }
+
+        Comment comment = CommentMapper.dtoToObject(dto);
+
+        comment.setCreatedOn(LocalDateTime.now());
+        comment.setCommentator(commentator);
+        comment.setEvent(event);
+
+        Comment newComment = commentRepository.save(comment);
+
+        return CommentMapper.objectToFullDto(newComment);
+    }
+
+    @Transactional
+    @Override
+    public CommentFullDto updateComment(CommentCreateDto dto, Long commentId, Long userId) {
+
+        Comment comment = commentRepository.findByIdAndCommentatorId(commentId, userId).orElseThrow(
+                () -> new NotFoundException(
+                        String.format("Comment not found with id = %s", commentId)));
+
+        comment.setUpdateOn(LocalDateTime.now());
+        comment.setText(dto.getText());
+
+        return CommentMapper.objectToFullDto(commentRepository.save(comment));
+    }
+
+    @Transactional
+    @Override
+    public void deleteComment(Long commentId, Long userId) {
+        var affected = commentRepository.deleteByIdAndAndCommentatorId(commentId, userId);
+
+        if (affected == 0) {
+            throw new NotFoundException(String.format("Comment not found with id = %s", commentId));
+        }
+    }
 }

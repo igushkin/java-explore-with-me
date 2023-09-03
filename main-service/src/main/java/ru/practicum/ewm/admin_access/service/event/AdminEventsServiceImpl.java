@@ -60,10 +60,10 @@ public class AdminEventsServiceImpl implements AdminEventsService {
 
         try {
             eventRepository.flush();
+            log.info("Update event: {}, {}", event.getTitle(), event.getState());
         } catch (DataIntegrityViolationException e) {
             throw new ConflictException(e.getMessage(), e);
         }
-        log.info("Update event: {}", event.getTitle());
         return EventMapper.toEventFullDto(event);
     }
 

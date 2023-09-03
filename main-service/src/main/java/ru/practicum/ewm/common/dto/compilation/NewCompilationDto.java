@@ -1,8 +1,8 @@
-package ru.practicum.ewm.common.dto.Compilation;
+package ru.practicum.ewm.common.dto.compilation;
 
 import lombok.*;
-import ru.practicum.ewm.common.util.annotation.NotBlankNull;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -11,10 +11,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UpdateCompilationRequest {
+public class NewCompilationDto {
     private List<Long> events;
-    private Boolean pinned;
-    @NotBlankNull
+    private boolean pinned;
+    @NotBlank
     @Size(min = 1, max = 50)
     private String title;
+
 }

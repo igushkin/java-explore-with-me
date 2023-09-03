@@ -1,8 +1,8 @@
 package ru.practicum.ewm.common.mapper;
 
 import lombok.experimental.UtilityClass;
-import ru.practicum.ewm.common.dto.Category.CategoryDto;
-import ru.practicum.ewm.common.dto.Category.NewCategoryDto;
+import ru.practicum.ewm.common.dto.category.CategoryDto;
+import ru.practicum.ewm.common.dto.category.NewCategoryDto;
 import ru.practicum.ewm.common.entity.Category;
 
 import java.util.List;

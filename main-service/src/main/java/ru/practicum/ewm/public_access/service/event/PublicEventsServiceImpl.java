@@ -6,13 +6,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.practicum.ewm.common.dto.comment.CommentFullDto;
 import ru.practicum.ewm.common.dto.event.EventFullDto;
 import ru.practicum.ewm.common.dto.event.EventShortDto;
 import ru.practicum.ewm.common.entity.Event;
 import ru.practicum.ewm.common.entity.EventSearchCriteria;
 import ru.practicum.ewm.common.enums.State;
 import ru.practicum.ewm.common.exception.NotFoundException;
+import ru.practicum.ewm.common.mapper.CommentMapper;
 import ru.practicum.ewm.common.mapper.EventMapper;
+import ru.practicum.ewm.common.repository.CommentRepository;
 import ru.practicum.ewm.common.repository.EventRepository;
 import ru.practicum.ewm.common.util.MyPageRequest;
 import ru.practicum.ewm.public_access.dto.RequestParamForEvent;
@@ -22,6 +25,7 @@ import ru.practicum.explore_with_me.dto.HitDto;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +34,8 @@ import java.util.List;
 public class PublicEventsServiceImpl implements PublicEventsService {
 
     private final EventRepository eventRepository;
+
+    private final CommentRepository commentRepository;
 
     private final StatsClient statsClient;
 
@@ -66,6 +72,15 @@ public class PublicEventsServiceImpl implements PublicEventsService {
         event.setViews(views);
         eventRepository.flush();
         return EventMapper.toEventFullDto(event);
+    }
+
+    @Override
+    public List<CommentFullDto> getEventComments(Long eventId, int from, int size) {
+        MyPageRequest pageable = new MyPageRequest(from, size, Sort.by(Sort.Direction.ASC, "id"));
+        return commentRepository.findByEventId(eventId, pageable)
+                .stream()
+                .map(comment -> CommentMapper.objectToFullDto(comment))
+                .collect(Collectors.toList());
     }
 
     private void saveEndpointHit(HttpServletRequest request) {
